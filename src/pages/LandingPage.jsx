@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase/config";
+import ci360logo from "../assets/ClarityIndex360_Primary_4000px.png";
 
 export default function LandingPage() {
   const { id } = useParams();
@@ -19,7 +20,7 @@ export default function LandingPage() {
 
       for (const docSnap of snapshot.docs) {
         const data = docSnap.data();
-        const p = data.participants?.find(p => String(p.link) === String(id));
+        const p = data.participants?.find((p) => String(p.link) === String(id));
 
         if (p) {
           foundAssessment = { id: docSnap.id, ...data };
@@ -46,12 +47,13 @@ export default function LandingPage() {
 
   // Client name logic
   const clientName =
-    assessment?.participants?.find(p => p.role === "Self")?.name ||
+    assessment?.participants?.find((p) => p.role === "Self")?.name ||
     assessment?.name;
 
   return (
     <div style={styles.page}>
       <div style={styles.card}>
+        <img src={ci360logo} alt="Clarity Index 360" style={styles.logo} />
         <h1 style={styles.title}>Welcome!</h1>
 
         <p style={styles.text}>
@@ -72,7 +74,8 @@ export default function LandingPage() {
         </p>
 
         <p style={styles.text}>
-          This is a developmental process, <em>not</em> a performance evaluation.
+          This is a developmental process, <em>not</em> a performance
+          evaluation.
         </p>
 
         <h2 style={styles.sectionTitle}>Rating Scale</h2>
@@ -116,14 +119,19 @@ export default function LandingPage() {
   );
 }
 
-// CSS 
+// CSS
 const styles = {
+  logo: {
+    width: "clamp(180px, 40%, 280px)",
+    height: "auto",
+    display: "block",
+    margin: "0 auto 20px auto",
+  },
   page: {
     textAlign: "center",
     marginTop: "60px",
     padding: "20px",
     fontFamily: "Arial, sans-serif",
-    
   },
 
   card: {
@@ -133,6 +141,7 @@ const styles = {
     borderRadius: "12px",
     boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
     backgroundColor: "#01ff2b36",
+    overflow: "hidden",
   },
 
   title: {

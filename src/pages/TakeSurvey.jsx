@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { db } from "../firebase/config";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import ci360logo from "../assets/ClarityIndex360_Primary_4000px.png";
+import logoGraphic from "../assets/CI360_aperture_icon_teal_gold.png";
 
 export default function TakeSurvey() {
   const { id } = useParams();
@@ -20,9 +22,9 @@ export default function TakeSurvey() {
       let foundAssessment = null;
       let foundParticipant = null;
 
-      snapshot.docs.forEach(docSnap => {
+      snapshot.docs.forEach((docSnap) => {
         const data = docSnap.data();
-        const p = data.participants?.find(p => p.link === id);
+        const p = data.participants?.find((p) => p.link === id);
 
         if (p) {
           foundAssessment = { id: docSnap.id, ...data };
@@ -40,7 +42,7 @@ export default function TakeSurvey() {
 
       const surveySnapshot = await getDocs(collection(db, "surveys"));
       const surveyDoc = surveySnapshot.docs.find(
-        s => s.id === foundAssessment.surveyId
+        (s) => s.id === foundAssessment.surveyId,
       );
 
       if (surveyDoc) setQuestions(surveyDoc.data().questions || []);
@@ -50,8 +52,8 @@ export default function TakeSurvey() {
   }, [id]);
 
   const handleChange = (qId, value) => {
-    setResponses(prev => ({ ...prev, [qId]: value }));
-    setErrors(prev => ({ ...prev, [qId]: false }));
+    setResponses((prev) => ({ ...prev, [qId]: value }));
+    setErrors((prev) => ({ ...prev, [qId]: false }));
   };
 
   const handleSubmit = async () => {
@@ -60,7 +62,7 @@ export default function TakeSurvey() {
     const newErrors = {};
     let hasError = false;
 
-    questions.forEach(q => {
+    questions.forEach((q) => {
       const answer = responses[q.id];
 
       if (q.type === "text") {
@@ -85,8 +87,8 @@ export default function TakeSurvey() {
       return;
     }
 
-    const updatedParticipants = assessment.participants.map(p =>
-      p.link === id ? { ...p, completed: true, responses } : p
+    const updatedParticipants = assessment.participants.map((p) =>
+      p.link === id ? { ...p, completed: true, responses } : p,
     );
 
     const ref = doc(db, "assessments", assessment.id);
@@ -99,24 +101,22 @@ export default function TakeSurvey() {
   if (participant.invalid)
     return <p>This survey link is invalid or has already been used.</p>;
 
-
-  
   return (
     <div style={styles.page}>
       <div style={styles.card}>
-        <h1 style={styles.title}>Clarity Index</h1>
+        <img src={ci360logo} alt="Clarity Index 360" style={styles.logo} />
 
         {questions.length === 0 && (
           <p style={styles.text}>No questions found for this survey.</p>
         )}
 
         <form
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault();
             handleSubmit();
           }}
         >
-          {questions.map(q => (
+          {questions.map((q) => (
             <div key={q.id} style={styles.questionBlock}>
               <label
                 style={{
@@ -131,7 +131,7 @@ export default function TakeSurvey() {
                 <>
                   <textarea
                     value={responses[q.id] || ""}
-                    onChange={e => handleChange(q.id, e.target.value)}
+                    onChange={(e) => handleChange(q.id, e.target.value)}
                     rows={3}
                     maxLength={1200}
                     style={{
@@ -150,7 +150,7 @@ export default function TakeSurvey() {
                 </>
               ) : (
                 <div style={styles.scaleContainer}>
-                  {[0, 1, 2, 3, 4, 5].map(val => {
+                  {[0, 1, 2, 3, 4, 5].map((val) => {
                     const label = val === 0 ? "N/O" : val;
                     const isSelected = responses[q.id] === val;
 
@@ -198,6 +198,12 @@ export default function TakeSurvey() {
 }
 
 const styles = {
+  logo: {
+    width: "clamp(180px, 40%, 280px)",
+    height: "auto",
+    display: "block",
+    margin: "0 auto 20px auto",
+  },
   page: {
     textAlign: "center",
     marginTop: "60px",
@@ -212,6 +218,7 @@ const styles = {
     borderRadius: "12px",
     boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
     backgroundColor: "#fff",
+    overflow: "hidden",
   },
 
   title: {
