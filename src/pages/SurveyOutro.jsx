@@ -1,21 +1,24 @@
 // src/pages/CompanyInfo.jsx
 import React from "react";
+import ci360logo from "../assets/ClarityIndex360_Primary_4000px.png";
 
 export default function SurveyOutro() {
   return (
     <div style={styles.page}>
       <div style={styles.card}>
+        <img src={ci360logo} alt="Clarity Index 360" style={styles.logo} />
         <h1 style={styles.title}>
-          Thank you for completing the Clarity Index 360™
+          Thank you for completing the 360 survey!
         </h1>
 
         <p style={styles.text}>
-          Your input contributes to meaningful leadership insight and development.
+          Your input contributes to meaningful leadership insight and
+          development.
         </p>
 
         <p style={styles.text}>
-          To learn more about the Clarity Index 360™, or how to bring this process
-          into your organization, click the link below.
+          To learn more about the Clarity Index 360™, or how to bring this
+          process into your organization, click the link below.
         </p>
 
         <a
@@ -32,6 +35,12 @@ export default function SurveyOutro() {
 }
 
 const styles = {
+  logo: {
+    width: "clamp(180px, 40%, 280px)",
+    height: "auto",
+    display: "block",
+    margin: "0 auto 20px auto",
+  },
   page: {
     textAlign: "center",
     marginTop: "80px",
@@ -40,12 +49,13 @@ const styles = {
   },
 
   card: {
-    maxWidth: "700px",
+    maxWidth: "750px",
     margin: "0 auto",
     padding: "40px",
     borderRadius: "12px",
     boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
     backgroundColor: "#01ff2b36",
+    overflow: "hidden",
   },
 
   title: {
