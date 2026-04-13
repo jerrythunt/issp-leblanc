@@ -81,6 +81,9 @@ input, select, textarea {
 }
 
 /* Topbar */
+/* =========================
+   TOPBAR BASE
+========================= */
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -89,46 +92,56 @@ input, select, textarea {
   background-color: #1976d2;
   color: white;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  flex-wrap: wrap; /* IMPORTANT FIX */
 }
 
+/* =========================
+   LEFT SIDE
+========================= */
 .topbar-left {
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 200px;
+  flex-shrink: 0;
 }
 
 .topbar-logo {
-  width: px;
-  height: 40px;         /* force a square box */
-  object-fit: contain;   /* scale the logo inside without stretching */
-  object-position: center; /* focus on the center of the image */
+  width: 40px;   /* FIXED (was broken: width: px) */
+  height: 40px;
+  object-fit: contain;
+  object-position: center;
 }
 
 .topbar-title {
   font-size: 18px;
   font-weight: bold;
+  white-space: nowrap;
 }
 
+/* =========================
+   RIGHT SIDE LINKS
+========================= */
 .topbar-right {
   display: flex;
   gap: 16px;
+  align-items: center;
+  flex-wrap: wrap; /* IMPORTANT FIX */
 }
 
+/* links */
 .topbar-link {
   color: white;
   text-decoration: none;
   font-weight: 500;
+  white-space: nowrap;
 }
 
 .topbar-link:hover {
   text-decoration: underline;
 }
 
-.topbar-left {
-  display: flex;
-  align-items: center;
-}
-
+/* logout button */
 .topbar-logout-btn {
   background-color: #d32f2f;
   color: white;
@@ -137,10 +150,34 @@ input, select, textarea {
   border-radius: 4px;
   cursor: pointer;
   font-weight: 500;
-  margin-left: 12px;
 }
 
 .topbar-logout-btn:hover {
   opacity: 0.85;
 }
 
+/* =========================
+   MOBILE FIX
+========================= */
+@media (max-width: 900px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .topbar-right {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .topbar-title {
+    font-size: 16px;
+  }
+
+  .topbar-link,
+  .topbar-logout-btn {
+    font-size: 14px;
+  }
+}
