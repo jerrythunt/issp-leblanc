@@ -12,12 +12,6 @@ export default function Questions() {
 
   const adminEmail = "admin@admin.com"; // <-- replace with your admin email
 
-  // Redirect non-admin users
-  useEffect(() => {
-    if (auth.currentUser?.email !== adminEmail) {
-      navigate("/dashboard");
-    }
-  }, [auth.currentUser, navigate]);
 
   // Fetch questions
   const fetchQuestions = async () => {

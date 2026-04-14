@@ -3,12 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import { db } from "../firebase/config";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import ci360logo from "../assets/ClarityIndex360_Primary_4000px.png";
-import logoGraphic from "../assets/CI360_aperture_icon_teal_gold.png";
 
 export default function TakeSurvey() {
   const { id } = useParams();
   const navigate = useNavigate();
-
   const [assessment, setAssessment] = useState(null);
   const [participant, setParticipant] = useState(null);
   const [questions, setQuestions] = useState([]);
@@ -69,8 +67,8 @@ export default function TakeSurvey() {
         if (!answer || answer.trim() === "") {
           newErrors[q.id] = "Please answer this question.";
           hasError = true;
-        } else if (answer.length > 1200) {
-          newErrors[q.id] = "Text exceeds 1200 characters.";
+        } else if (answer.length > 5000) {
+          newErrors[q.id] = "Text exceeds 5000 characters.";
           hasError = true;
         }
       } else {
@@ -133,7 +131,7 @@ export default function TakeSurvey() {
                     value={responses[q.id] || ""}
                     onChange={(e) => handleChange(q.id, e.target.value)}
                     rows={3}
-                    maxLength={1200}
+                    maxLength={5000}
                     style={{
                       ...styles.textarea,
                       borderColor: errors[q.id] ? "red" : "#ccc",
@@ -141,7 +139,7 @@ export default function TakeSurvey() {
                   />
 
                   <div style={styles.charCount}>
-                    {responses[q.id]?.length || 0}/1200 characters
+                    {responses[q.id]?.length || 0}/5000 characters
                   </div>
 
                   {errors[q.id] && (
